@@ -1,0 +1,97 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Char_Animation : MonoBehaviour
+{
+    // Start is called before the first frame update
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public void Forward_Walk(bool move)
+    {
+        animator.SetBool("Walk", move);
+    }
+
+    public void Backward_Walk(bool move)
+    {
+        animator.SetBool("Backward", move);
+    }
+
+    public void Punch1()
+    {
+        animator.SetTrigger("Punch1");
+    }
+
+    public void Punch2()
+    {
+        animator.SetTrigger("Punch2");
+    }
+
+    public void Kick1()
+    {
+        animator.SetTrigger("Kick1");
+    }
+
+    public void Kick2()
+    {
+        animator.SetTrigger("Kick2");
+    }
+
+    public void Combo1()
+    {
+        animator.SetTrigger("Combo1");
+    }
+
+    public void Combo2()
+    {
+        animator.SetTrigger("Combo2");
+    }
+
+    public void EnemyAttack(int attack)
+    {
+        if(attack == 0)
+        {
+            animator.SetTrigger("Attack1");
+        }
+        if (attack == 1)
+        {
+            animator.SetTrigger("Attack2");
+        }
+        if (attack == 2)
+        {
+            animator.SetTrigger("Attack3");
+        }
+        if (attack == 3)
+        {
+            animator.SetTrigger("Attack4");
+        }
+    }
+    public void Play_Idle()
+    {
+        animator.Play("Idle");
+    }
+
+    public void hit()
+    {
+        animator.SetTrigger("Hit");
+    }
+
+    public void death()
+    {
+          animator.SetTrigger("Death");
+    }
+    public void Forward_Enemy(bool move)
+    {
+        animator.SetBool("Forward", move);
+    }
+
+    public void Backward_Enemy(bool move)
+    {
+        animator.SetBool("Backward", move);
+    }
+}
