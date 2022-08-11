@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player_Hit_Event : MonoBehaviour
+{
+    [SerializeField] int damage = 10;
+    float distance = 3f;
+    EnemyHealth enemy;
+
+    private void Awake()
+    {
+        enemy = FindObjectOfType<EnemyHealth>();
+    }
+
+    public void HitEvent()
+    {
+        if (Vector3.Distance(gameObject.transform.position, enemy.transform.position) <= distance)
+        {
+            enemy.Take_Damage(damage);
+        }
+    }
+}
