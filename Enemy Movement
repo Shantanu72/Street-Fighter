@@ -1,0 +1,100 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy_Movement : MonoBehaviour
+{
+    Char_Animation enemy_Anim;
+    Player_Health player;
+
+    Rigidbody body;
+    [SerializeField] float speed = 5f;
+
+    Transform targetPlayer;
+    [SerializeField] float attack_Distance = 3f;
+    float chase_Player = 1f;
+
+    float current_Attack_Time;
+    float default_Attack_Time = 1f;
+
+    bool follow_Player;
+    bool attack_Player;
+
+
+    private void Awake()
+    {
+        enemy_Anim = GetComponentInChildren<Char_Animation>();
+        body = GetComponent<Rigidbody>();
+        player = FindObjectOfType<Player_Health>();
+
+        targetPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    void Start()
+    {
+        follow_Player = true;
+        current_Attack_Time = default_Attack_Time;
+    }
+
+    void Update()
+    {
+        Attack();
+    }
+
+    private void FixedUpdate()
+    {
+        FollowTarget();
+    }
+
+    void FollowTarget()
+    {
+        if(!follow_Player)
+        {
+            return;
+        }
+        if(Vector3.Distance(transform.position , targetPlayer.position) > attack_Distance)
+        {
+            Movement();
+        }
+        else if (Vector3.Distance(transform.position, targetPlayer.position) <= attack_Distance)
+        {
+            body.velocity = Vector3.zero;
+            enemy_Anim.Forward_Enemy(false);
+            follow_Player = false;
+            attack_Player = true;
+        }
+    }
+
+    private void Movement()
+    {
+        transform.LookAt(targetPlayer);
+        body.velocity = transform.forward * speed;
+
+        if (body.velocity.sqrMagnitude != 0)
+        {
+            enemy_Anim.Forward_Enemy(true);
+        }
+    }
+
+    void Attack()
+    {
+        if (player.isDead_Player)
+            return;
+
+        if (!attack_Player)
+            return;      
+
+        current_Attack_Time += Time.deltaTime;
+
+        if(current_Attack_Time > default_Attack_Time)
+        {
+            enemy_Anim.EnemyAttack(Random.Range(0, 4));
+            current_Attack_Time = 0f;
+        }
+        if(Vector3.Distance(transform.position , targetPlayer.position) > attack_Distance + chase_Player)
+        {
+            attack_Player = false;
+            follow_Player = true;
+        }
+    }
+}
