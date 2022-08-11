@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Movement : MonoBehaviour
+{
+    [SerializeField] float walk_speed = 5f;
+    [SerializeField] float z_speed = 1.5f;
+
+    Rigidbody body;
+    Char_Animation anim;
+
+    float inputX;
+    float inputZ;
+
+    Vector3 movement;
+    Vector3 velocity;
+    Transform targetEnemy;
+
+    void Awake()
+    {
+        anim = GetComponentInChildren<Char_Animation>();
+        body = GetComponent<Rigidbody>();
+        targetEnemy = GameObject.FindGameObjectWithTag("Enemy").transform;
+    }
+
+
+    void Update()
+    {
+        inputX = Input.GetAxisRaw("Vertical");
+        inputZ = Input.GetAxisRaw("Horizontal");
+        transform.LookAt(targetEnemy);
+        Walk_Animation();
+    }
+
+    private void FixedUpdate()
+    {
+        PlayerMovement();
+    }
+
+    private void PlayerMovement()
+    {
+        body.velocity = new Vector3(inputX * -z_speed, body.velocity.y, inputZ * walk_speed);
+    }
+
+    private void Walk_Animation()
+    {
+        if (inputZ > 0)
+        {
+            anim.Forward_Walk(true);
+        }
+        else if (inputZ < 0)
+        {
+            anim.Backward_Walk(true);
+        }
+        else
+        {
+            anim.Forward_Walk(false);
+            anim.Backward_Walk(false);
+        }
+    }
+}
