@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyHealth : MonoBehaviour
+{
+    [SerializeField] int health = 100;
+
+    Char_Animation anim;
+    Enemy_Movement movement;
+
+    public bool isDead_Enemy = false;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Char_Animation>();
+        movement = GetComponentInChildren<Enemy_Movement>();
+    }
+
+    public void Take_Damage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            if (!isDead_Enemy)
+            {
+                anim.death();
+                movement.enabled = false;
+                isDead_Enemy = true;
+            }
+
+        }
+    }
+}
