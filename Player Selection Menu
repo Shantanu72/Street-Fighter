@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class Character_Manager : MonoBehaviour
+{
+    [SerializeField] GameObject[] character;
+    public int selected_Value ;
+
+    private void Awake()
+    {
+        FindObjectOfType<Char_Animation>().enabled = true;
+        FindObjectOfType<Fighting_Move>().enabled = true;
+        
+        selected_Value = PlayerPrefs.GetInt("SelectedPlayer", 0);
+        foreach(GameObject player in character)
+        {
+            player.SetActive(false);
+        }
+        character[selected_Value].SetActive(true);
+    }
+
+    public void Next_Option()
+    {
+        character[selected_Value].SetActive(false);
+        selected_Value++;
+
+        if(selected_Value == character.Length)
+        {
+            selected_Value = 0; 
+        }
+        character[selected_Value].SetActive(true);
+        PlayerPrefs.SetInt("SelectedPlayer", selected_Value);
+    }
+
+    public void Privous_Option()
+    {
+        character[selected_Value].SetActive(false);
+        selected_Value--;
+
+        if (selected_Value < 0)
+        {
+            selected_Value = character.Length -1;
+        }
+        character[selected_Value].SetActive(true);
+        PlayerPrefs.SetInt("SelectedPlayer", selected_Value);
+    }
+
+    public void ChnageScene(int scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+}
