@@ -11,6 +11,7 @@ public class Character_Manager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 0;
         FindObjectOfType<Char_Animation>().enabled = true;
         FindObjectOfType<Fighting_Move>().enabled = true;
         
@@ -51,5 +52,6 @@ public class Character_Manager : MonoBehaviour
     public void ChnageScene(int scene)
     {
         SceneManager.LoadScene(scene);
+        Time.timeScale = 0;
     }
 }
