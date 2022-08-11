@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player_Health : MonoBehaviour
+{
+    [SerializeField] int health = 100;
+
+    Char_Animation anim;
+    Movement movement;
+
+    public bool isDead_Player = false;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Char_Animation>();
+        movement = GetComponent<Movement>();
+    }
+
+    public void Take_Damage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            if (!isDead_Player)
+            {
+                anim.death();
+                movement.enabled = false;
+                isDead_Player = true;
+            }
+        }
+    }
+}
