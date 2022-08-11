@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Select_Player : MonoBehaviour
+{
+    [SerializeField] GameObject[] playerPrefabs;
+    int playerIndex;
+
+    private void Awake()
+    {
+        playerIndex = PlayerPrefs.GetInt("SelectedPlayer", 0);
+        playerPrefabs[playerIndex].SetActive(true);
+    }
+}
